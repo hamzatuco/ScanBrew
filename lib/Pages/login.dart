@@ -1,6 +1,14 @@
-// ignore_for_file: file_names, unused_import, import_of_legacy_library_into_null_safe
+// ignore_for_file: file_names, unused_import, import_of_legacy_library_into_null_safe, avoid_print
+
+import 'package:caffeadmin/Pages/dashboard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import '../firebase_options.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -8,6 +16,10 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
+
+final _emailController = TextEditingController();
+final _passwordController = TextEditingController();
+String ime = '';
 
 class _LoginState extends State<Login> {
   @override
@@ -79,6 +91,7 @@ class _LoginState extends State<Login> {
                       child: Column(
                         children: [
                           TextField(
+                            controller: _emailController,
                             decoration: InputDecoration(
                               labelText: 'Email',
                               labelStyle: TextStyle(
@@ -111,6 +124,7 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                           TextField(
+                            controller: _passwordController,
                             decoration: InputDecoration(
                               labelText: 'Lozinka',
                               labelStyle: TextStyle(
@@ -194,7 +208,7 @@ class _LoginState extends State<Login> {
                                             const Color(0xffCEA35B),
                                       ),
                                       onPressed: () {
-                                        // Add onPressed function here
+                                        prijava(context);
                                       },
                                       child: Text(
                                         'Prijava →]',
@@ -233,5 +247,64 @@ class _LoginState extends State<Login> {
         ],
       ),
     );
+  }
+}
+
+Future<void> prijava(BuildContext context) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  try {
+    // Authenticate the user
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+
+    // Get the user's email from Firebase Authentication
+    String userEmail = userCredential.user?.email ?? '';
+
+    // Query the Firestore collection for the user's email
+    CollectionReference usersCollection =
+        FirebaseFirestore.instance.collection('users');
+    QuerySnapshot querySnapshot =
+        await usersCollection.where('Email', isEqualTo: userEmail).get();
+
+    if (querySnapshot.size > 0) {
+      // The user's email exists in the Firestore collection
+      // Extract the 'Ime' field from the Firestore document
+      String ime = querySnapshot.docs[0].get('Ime') ?? '';
+
+      // Clear the text controllers
+      _emailController.clear();
+      _passwordController.clear();
+
+      // Navigate to the Dashboard page and pass the 'ime' parameter
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Dashboard(ime: ime),
+        ),
+      );
+    } else {
+      // User's email not found in Firestore collection
+      Fluttertoast.showToast(msg: 'Korisnik nije pronađen');
+    }
+  } on FirebaseAuthException catch (e) {
+    // Handle Firebase Authentication exceptions
+    if (e.code == 'user-not-found') {
+      Fluttertoast.showToast(msg: 'Korisnik nije pronađen');
+    } else if (e.code == 'wrong-password') {
+      Fluttertoast.showToast(msg: 'Kriva lozinka');
+    } else {
+      Fluttertoast.showToast(msg: 'Greška prilikom prijave');
+    }
+  } catch (e) {
+    // Handle other exceptions
+    print(e);
   }
 }
