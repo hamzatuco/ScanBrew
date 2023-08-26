@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, unused_import, import_of_legacy_library_into_null_safe, avoid_print
 
 import 'package:caffeadmin/Pages/dashboard.dart';
-import 'package:caffeadmin/Pages/forgotpassword.dart';
+import 'package:caffeadmin/Pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,19 +11,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../firebase_options.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Lozinka extends StatefulWidget {
+  const Lozinka({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Lozinka> createState() => _LozinkaState();
 }
 
 final _emailController = TextEditingController();
 final _passwordController = TextEditingController();
 String ime = '';
-bool _isObscured = true;
 
-class _LoginState extends State<Login> {
+class _LozinkaState extends State<Lozinka> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +67,7 @@ class _LoginState extends State<Login> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(25, 15, 25, 0),
                   child: Text(
-                      'Servis za upravljanje artikala i cijena \nu ugostiteljskim objektima',
+                      'Unesite E-mail povezan sa Vasim racunom\na mi cemo Vam poslati link za obnovu lozinke',
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.poppins(
@@ -84,12 +83,12 @@ class _LoginState extends State<Login> {
             child: Center(
               child: Container(
                 width: 350,
-                height: 440,
+                height: 350,
                 color: const Color.fromARGB(255, 90, 59, 48),
                 child: Stack(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 100, 10, 0),
+                      padding: const EdgeInsets.fromLTRB(10, 120, 10, 0),
                       child: Column(
                         children: [
                           TextField(
@@ -125,51 +124,6 @@ class _LoginState extends State<Login> {
                               color: Color.fromARGB(255, 75, 70, 70),
                             ),
                           ),
-                          TextFormField(
-                            obscureText: _isObscured,
-                            controller: _passwordController,
-                            decoration: InputDecoration(
-                              labelText: 'Lozinka',
-                              labelStyle: TextStyle(
-                                fontFamily: GoogleFonts.poppins().fontFamily,
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                              ),
-                              enabledBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide.none,
-                              ),
-                              focusedBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.white,
-                                  width: 2.0,
-                                ),
-                              ),
-                              contentPadding:
-                                  const EdgeInsets.fromLTRB(10, 30, 0, 30),
-                              suffixIcon: Padding(
-                                padding: const EdgeInsets.only(right: 10.0),
-                                child: IconButton(
-                                  icon: Icon(
-                                    _isObscured
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _isObscured = !_isObscured;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -182,19 +136,34 @@ class _LoginState extends State<Login> {
                         color: const Color(0xff3D2821),
                         child: Row(
                           children: [
-                            const SizedBox(width: 10),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10.0),
+                              child: IconButton(
+                                icon: const Icon(Icons.arrow_back,
+                                    color: Colors.white),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Login(),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
                             Expanded(
                               child: Center(
                                 child: Padding(
                                   padding:
-                                      const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                      const EdgeInsets.fromLTRB(0, 0, 40, 0),
                                   child: Text(
-                                    'PRIJAVITE SE POMOĆU EMAIL-A',
+                                    'OBNOVITE LOZINKU',
                                     textAlign: TextAlign.center,
                                     style: GoogleFonts.poppins(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600),
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -231,7 +200,7 @@ class _LoginState extends State<Login> {
                                         prijava(context);
                                       },
                                       child: Text(
-                                        'Prijava →]',
+                                        'Resetujte lozinku',
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.ellipsis,
                                         style: GoogleFonts.poppins(
@@ -250,12 +219,12 @@ class _LoginState extends State<Login> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const Lozinka(),
+                                          builder: (context) => const Login(),
                                         ),
                                       );
                                     },
                                     child: Text(
-                                      'Zaboravili ste lozinku?',
+                                      'Natrag na prijavu',
                                       style: GoogleFonts.poppins(
                                         color: Colors.white,
                                         fontSize: 14,

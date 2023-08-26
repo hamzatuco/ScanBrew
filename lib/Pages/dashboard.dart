@@ -1,3 +1,4 @@
+import 'package:caffeadmin/Pages/artikli.dart';
 import 'package:caffeadmin/Pages/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _DashboardState extends State<Dashboard> {
               const BorderRadius.vertical(bottom: Radius.circular(25.0)),
           child: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: const Color(0xffCEA35B)
+            backgroundColor: const Color(0xff5D4037)
                 .withOpacity(0.9), // Set the specified color
             title: Padding(
               padding: const EdgeInsets.fromLTRB(10, 30, 0, 0),
@@ -190,7 +191,12 @@ class _DashboardState extends State<Dashboard> {
                       Flexible(
                         child: ElevatedButton(
                           onPressed: () {
-                            // Handle the button's action
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CafeDetailsPage(),
+                              ),
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.grey[200],
