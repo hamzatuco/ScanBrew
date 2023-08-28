@@ -17,6 +17,8 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
+    final String imeFromDashboard = widget.ime; // Replace with actual value
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize:
@@ -194,7 +196,8 @@ class _DashboardState extends State<Dashboard> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CafeDetailsPage(),
+                                builder: (context) =>
+                                    CafeDetailsPage(ime: widget.ime),
                               ),
                             );
                           },
