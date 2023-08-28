@@ -17,7 +17,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
-    final String imeFromDashboard = widget.ime; // Replace with actual value
+// Replace with actual value
 
     return Scaffold(
       appBar: PreferredSize(

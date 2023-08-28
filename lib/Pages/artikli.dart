@@ -1,4 +1,3 @@
-import 'package:caffeadmin/Pages/forgotpassword.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -63,10 +62,10 @@ class _CafeDetailsPageState extends State<CafeDetailsPage> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Cafe Name: ${cafeData?["Lokal"] ?? "N/A"}"),
-                  Text("Cafe Address: ${cafeData?["Adresa"] ?? "N/A"}"),
-                  SizedBox(height: 20),
-                  Text("Drinks:",
+                  Text("Cafe Name: ${cafeData["Lokal"] ?? "N/A"}"),
+                  Text("Cafe Address: ${cafeData["Adresa"] ?? "N/A"}"),
+                  const SizedBox(height: 20),
+                  const Text("Drinks:",
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
@@ -95,9 +94,9 @@ class _CafeDetailsPageState extends State<CafeDetailsPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                  "Drink Name: ${artikalData?["Naziv"] ?? "N/A"}"),
-                              Text("Price: ${artikalData?["Cijena"] ?? "N/A"}"),
-                              SizedBox(height: 10),
+                                  "Drink Name: ${artikalData["Naziv"] ?? "N/A"}"),
+                              Text("Price: ${artikalData["Cijena"] ?? "N/A"}"),
+                              const SizedBox(height: 10),
                             ],
                           );
                         }).toList(),
