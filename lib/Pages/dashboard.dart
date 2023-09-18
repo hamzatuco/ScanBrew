@@ -1,9 +1,13 @@
 import 'package:caffeadmin/Pages/artikli.dart';
 import 'package:caffeadmin/Pages/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 
 class Dashboard extends StatefulWidget {
   final String ime;
@@ -99,16 +103,16 @@ class _DashboardState extends State<Dashboard> {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Lottie.asset(
-                            'assets/animacija.json', // Replace with your JSON animation file path
-                            width: 210,
-                            height: 210,
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: Lottie.network(
+                            'https://lottie.host/7ee48986-127f-409a-9c56-dcfc9ff4a1be/qa54TvuLRm.json', // Replace with your JSON animation file path
+                            width: 240,
+                            height: 240,
                             fit: BoxFit.contain,
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 5),
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 5),
                           child: Text(
                             'Dobrodosli na Scan Brew, upravljajte Vasim lokalom i cijenama Vasih proizvoda',
                             textAlign: TextAlign.center,
@@ -152,7 +156,18 @@ class _DashboardState extends State<Dashboard> {
                       Flexible(
                         child: ElevatedButton(
                           onPressed: () {
-                            // Handle the button's action
+                            Fluttertoast.showToast(
+                              msg: "Uskoro...",
+                              toastLength:
+                                  Toast.LENGTH_SHORT, // Duration of the toast
+                              gravity:
+                                  ToastGravity.BOTTOM, // Position of the toast
+                              backgroundColor:
+                                  Colors.grey, // Background color of the toast
+                              textColor:
+                                  Colors.white, // Text color of the toast
+                              fontSize: 16.0, // Font size of the text
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.grey[200],
@@ -243,7 +258,7 @@ class _DashboardState extends State<Dashboard> {
                 padding: const EdgeInsets.all(40.0),
                 child: TextButton(
                   onPressed: () {
-                    // Implement logout functionality here
+                    _showHelpDialog(context, widget.ime);
                   },
                   child: Text(
                     'ℹ️ Potrazite pomoc',
@@ -254,11 +269,160 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
       ),
     );
   }
+}
+
+void _showHelpDialog(BuildContext context, String ime) {
+  String selectedCategory = 'Login Issues'; // Default selection
+  final subjectController = TextEditingController();
+  final messageController = TextEditingController();
+
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0), // Rounded corners
+        ),
+        contentPadding: const EdgeInsets.all(16.0),
+        content: Container(
+          width: 500, // Set the width
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Potrazite pomoc',
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                'Kontaktirate kao: $ime', // Display "Kontaktirate kao: [ime]"
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                'Predmet:',
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextField(
+                controller: subjectController,
+                decoration: InputDecoration(
+                  hintText: 'Predmet',
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                'Pomoc za:',
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              DropdownButtonFormField<String>(
+                value: selectedCategory,
+                items:
+                    ['Login Issues', 'App Bug', 'Other'].map((String category) {
+                  return DropdownMenuItem<String>(
+                    value: category,
+                    child: Text(category, style: GoogleFonts.poppins()),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  selectedCategory = newValue!;
+                },
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                'Poruka:',
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              TextField(
+                controller: messageController,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  hintText: 'Unesite poruku',
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.symmetric(
+                  vertical: 16.0, horizontal: 24.0), // Adjust button padding
+            ),
+            child: Text(
+              'Odustani',
+              style: GoogleFonts.poppins(
+                color: Color(0xff5D4037),
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Color(0xff5D4037),
+              padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+            ),
+            child: Text(
+              'Podnesi',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            onPressed: () async {
+              // Check if any field is empty
+              if (subjectController.text.isEmpty ||
+                  messageController.text.isEmpty) {
+                // Display a toast message
+                Fluttertoast.showToast(
+                  msg: 'Molimo Vas popunite sva polja',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                );
+              } else {
+                // Create a reference to your Firebase Firestore collection
+                final CollectionReference porukeCollection =
+                    FirebaseFirestore.instance.collection('poruke');
+
+                // Prepare the data to be stored
+                Map<String, dynamic> porukaData = {
+                  'kontaktirano_kao': ime,
+                  'predmet': subjectController.text,
+                  'kategorija': selectedCategory,
+                  'poruka': messageController.text,
+                  'vrijeme': FieldValue
+                      .serverTimestamp(), // Optional: Include a timestamp
+                };
+
+                // Add the data to Firestore
+                await porukeCollection.add(porukaData);
+
+                // Close the dialog
+                Navigator.of(context).pop();
+              }
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

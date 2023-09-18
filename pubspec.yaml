@@ -41,6 +41,7 @@ dependencies:
   firebase_auth:
   fluttertoast: ^8.2.2
   cloud_firestore: 
+  mailer:
 
 dev_dependencies:
   flutter_test:
