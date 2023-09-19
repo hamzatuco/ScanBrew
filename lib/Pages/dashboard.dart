@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
 
 class Dashboard extends StatefulWidget {
   final String ime;
@@ -279,7 +277,7 @@ class _DashboardState extends State<Dashboard> {
 }
 
 void _showHelpDialog(BuildContext context, String ime) {
-  String selectedCategory = 'Login Issues'; // Default selection
+  String selectedCategory = 'Problemi sa prijavom'; // Default selection
   final subjectController = TextEditingController();
   final messageController = TextEditingController();
 
@@ -291,7 +289,7 @@ void _showHelpDialog(BuildContext context, String ime) {
           borderRadius: BorderRadius.circular(15.0), // Rounded corners
         ),
         contentPadding: const EdgeInsets.all(16.0),
-        content: Container(
+        content: SizedBox(
           width: 500, // Set the width
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -304,14 +302,14 @@ void _showHelpDialog(BuildContext context, String ime) {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Text(
                 'Kontaktirate kao: $ime', // Display "Kontaktirate kao: [ime]"
                 style: GoogleFonts.poppins(
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Text(
                 'Predmet:',
                 style: GoogleFonts.poppins(
@@ -320,11 +318,11 @@ void _showHelpDialog(BuildContext context, String ime) {
               ),
               TextField(
                 controller: subjectController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Predmet',
                 ),
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Text(
                 'Pomoc za:',
                 style: GoogleFonts.poppins(
@@ -333,8 +331,13 @@ void _showHelpDialog(BuildContext context, String ime) {
               ),
               DropdownButtonFormField<String>(
                 value: selectedCategory,
-                items:
-                    ['Login Issues', 'App Bug', 'Other'].map((String category) {
+                items: [
+                  'Problemi sa prijavom',
+                  'Greska u dizajnu',
+                  'Problemi sa serverom',
+                  'Ostalo',
+                  'Prijedlog za poboljsanje'
+                ].map((String category) {
                   return DropdownMenuItem<String>(
                     value: category,
                     child: Text(category, style: GoogleFonts.poppins()),
@@ -344,7 +347,7 @@ void _showHelpDialog(BuildContext context, String ime) {
                   selectedCategory = newValue!;
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               Text(
                 'Poruka:',
                 style: GoogleFonts.poppins(
@@ -354,7 +357,7 @@ void _showHelpDialog(BuildContext context, String ime) {
               TextField(
                 controller: messageController,
                 maxLines: 4,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Unesite poruku',
                 ),
               ),
@@ -364,13 +367,13 @@ void _showHelpDialog(BuildContext context, String ime) {
         actions: <Widget>[
           TextButton(
             style: TextButton.styleFrom(
-              padding: EdgeInsets.symmetric(
+              padding: const EdgeInsets.symmetric(
                   vertical: 16.0, horizontal: 24.0), // Adjust button padding
             ),
             child: Text(
               'Odustani',
               style: GoogleFonts.poppins(
-                color: Color(0xff5D4037),
+                color: const Color(0xff5D4037),
               ),
             ),
             onPressed: () {
@@ -379,8 +382,9 @@ void _showHelpDialog(BuildContext context, String ime) {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: Color(0xff5D4037),
-              padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+              backgroundColor: const Color(0xff5D4037),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
             ),
             child: Text(
               'Podnesi',
@@ -417,6 +421,7 @@ void _showHelpDialog(BuildContext context, String ime) {
                 await porukeCollection.add(porukaData);
 
                 // Close the dialog
+                // ignore: use_build_context_synchronously
                 Navigator.of(context).pop();
               }
             },

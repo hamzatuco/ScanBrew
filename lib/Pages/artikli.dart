@@ -185,12 +185,12 @@ class _CafeDetailsPageState extends State<CafeDetailsPage> {
                                     return kategorijaA.compareTo(kategorijaB);
                                   });
 
-                                  return Container(
+                                  return SizedBox(
                                     height: 650,
                                     child: SingleChildScrollView(
                                       scrollDirection: Axis.vertical,
                                       child: Table(
-                                        columnWidths: {
+                                        columnWidths: const {
                                           0: FlexColumnWidth(
                                               2), // Adjust the width of the first column
                                           1: FlexColumnWidth(
@@ -299,10 +299,10 @@ class _CafeDetailsPageState extends State<CafeDetailsPage> {
                             _showAddArtikalDialog(context, cafeDoc);
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: const Color.fromARGB(
+                            backgroundColor: const Color.fromARGB(
                                 255, 93, 53, 38), // Button background color
                             minimumSize:
-                                Size(80, 50), // Button width and height
+                                const Size(80, 50), // Button width and height
                           ),
                           child: Text(
                             "Dodaj Artikal",
