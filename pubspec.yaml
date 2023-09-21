@@ -1,5 +1,5 @@
 name: scanbrew
-description: Servis za upravljanje artikala i cijena \nu ugostiteljskim objektima
+description: Servis za upravljanje artikala i cijena u ugostiteljskim objektima
 
 publish_to: 'none'
 
@@ -26,8 +26,6 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_launcher_icons: 
 
-flutter_icons:
-  image_path:"assets/logo.png"
 
 
 flutter:
