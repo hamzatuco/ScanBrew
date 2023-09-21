@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, unused_import, import_of_legacy_library_into_null_safe, avoid_print
 
-import 'package:caffeadmin/Pages/dashboard.dart';
-import 'package:caffeadmin/Pages/forgotpassword.dart';
+import 'package:scanbrew/Pages/dashboard.dart';
+import 'package:scanbrew/Pages/forgotpassword.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -26,60 +26,59 @@ bool _isObscured = true;
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Stack(
-          children: [
-            Positioned.fill(
-              child: Image.asset(
-                'assets/pozadina.jpeg',
-                fit: BoxFit.cover,
-                alignment: const Alignment(-0.9, 0.5), // Shifted towards left
-              ),
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/pozadina.jpeg',
+              fit: BoxFit.cover,
+              alignment: const Alignment(-0.9, 0.5), // Shifted towards left
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 70.0),
-              child: Center(
-                child: Column(
-                  children: [
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        'Scan Brew',
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 70.0),
+            child: Center(
+              child: Column(
+                children: [
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'Scan Brew',
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: 29,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    child: SizedBox(
+                      width: 30.0,
+                      child: Divider(
+                        color: Colors.white,
+                        thickness: 1.0,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(25, 5, 25, 0),
+                    child: Text(
+                        'Servis za upravljanje artikala i cijena \nu ugostiteljskim objektima',
                         textAlign: TextAlign.center,
                         overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 29,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: SizedBox(
-                        width: 30.0,
-                        child: Divider(
-                          color: Colors.white,
-                          thickness: 1.0,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(25, 5, 25, 0),
-                      child: Text(
-                          'Servis za upravljanje artikala i cijena \nu ugostiteljskim objektima',
-                          textAlign: TextAlign.center,
-                          overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 90, 20, 0),
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500)),
+                  ),
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 160, 20, 0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: Container(
@@ -181,34 +180,29 @@ class _LoginState extends State<Login> {
                                   ],
                                 ),
                               ),
-                              Positioned(
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 90,
-                                  color: const Color(0xff3D2821),
-                                  child: Row(
-                                    children: [
-                                      const SizedBox(width: 10),
-                                      Expanded(
-                                        child: Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                0, 0, 10, 0),
-                                            child: Text(
-                                              'PRIJAVITE SE POMOĆU EMAIL-A',
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.poppins(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
+                              Container(
+                                height: 90,
+                                color: const Color(0xff3D2821),
+                                child: Row(
+                                  children: [
+                                    const SizedBox(width: 10),
+                                    Expanded(
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 0, 10, 0),
+                                          child: Text(
+                                            'PRIJAVITE SE POMOĆU EMAIL-A',
+                                            textAlign: TextAlign.center,
+                                            style: GoogleFonts.poppins(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600),
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Positioned(
@@ -285,12 +279,12 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

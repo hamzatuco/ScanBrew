@@ -1,7 +1,7 @@
 // ignore_for_file: file_names, unused_import, import_of_legacy_library_into_null_safe, avoid_print
 
-import 'package:caffeadmin/Pages/dashboard.dart';
-import 'package:caffeadmin/Pages/login.dart';
+import 'package:scanbrew/Pages/dashboard.dart';
+import 'package:scanbrew/Pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

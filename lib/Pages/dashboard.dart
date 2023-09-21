@@ -1,5 +1,5 @@
-import 'package:caffeadmin/Pages/artikli.dart';
-import 'package:caffeadmin/Pages/login.dart';
+import 'package:scanbrew/Pages/artikli.dart';
+import 'package:scanbrew/Pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -318,8 +318,24 @@ void _showHelpDialog(BuildContext context, String ime) {
               ),
               TextField(
                 controller: subjectController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: 'Predmet',
+                  hintStyle: GoogleFonts.poppins(
+                    fontSize: 15,
+                    // Add any other styling properties you want for the hint text here
+                  ),
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color(0xff5D4037), // Color when focused
+                      width: 2.0, // Width of the underline when focused
+                    ),
+                  ),
+                  enabledBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.grey, // Color when not focused
+                      width: 1.0, // Width of the underline when not focused
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 16.0),
@@ -331,6 +347,20 @@ void _showHelpDialog(BuildContext context, String ime) {
               ),
               DropdownButtonFormField<String>(
                 value: selectedCategory,
+                decoration: const InputDecoration(
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color(0xff5D4037), // Color when focused
+                      width: 2.0, // Width of the underline when focused
+                    ),
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.grey, // Color when not focused
+                      width: 1.0, // Width of the underline when not focused
+                    ),
+                  ),
+                ),
                 items: [
                   'Problemi sa prijavom',
                   'Greska u dizajnu',
@@ -356,11 +386,26 @@ void _showHelpDialog(BuildContext context, String ime) {
               ),
               TextField(
                 controller: messageController,
-                maxLines: 4,
-                decoration: const InputDecoration(
-                  hintText: 'Unesite poruku',
+                decoration: InputDecoration(
+                  hintText: 'Poruka',
+                  hintStyle: GoogleFonts.poppins(
+                    fontSize: 15,
+                    // Add any other styling properties you want for the hint text here
+                  ),
+                  focusedBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color(0xff5D4037), // Color when focused
+                      width: 2.0, // Width of the underline when focused
+                    ),
+                  ),
+                  enabledBorder: const UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.grey, // Color when not focused
+                      width: 1.0, // Width of the underline when not focused
+                    ),
+                  ),
                 ),
-              ),
+              )
             ],
           ),
         ),

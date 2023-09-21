@@ -386,57 +386,157 @@ class _CafeDetailsPageState extends State<CafeDetailsPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text("Dodaj novi artikal"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextFormField(
-                controller: _nazivController,
-                decoration: const InputDecoration(labelText: "Naziv"),
-                onChanged: (value) {},
-              ),
-              TextFormField(
-                controller: _cijenaController,
-                decoration: const InputDecoration(labelText: "Cijena"),
-                onChanged: (value) {},
-              ),
-              TextFormField(
-                // Add this TextFormField for "Link ikonice"
-                controller: _ikonicaController,
-                decoration: const InputDecoration(labelText: "Link ikonice"),
-                onChanged: (value) {},
-              ),
-              DropdownButtonFormField<String>(
-                value: selectedCategory,
-                items: categories.map((String category) {
-                  return DropdownMenuItem<String>(
-                    value: category,
-                    child: Text(category),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedCategory = newValue!;
-                  });
-                },
-                decoration: const InputDecoration(labelText: "Kategorija"),
-              ),
-            ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
-          actions: [
+          contentPadding: const EdgeInsets.all(16.0),
+          content: SizedBox(
+            width: 500, // Set the width
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Dodaj novi artikal',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16.0),
+                TextFormField(
+                  controller: _nazivController,
+                  decoration: InputDecoration(
+                    labelText: 'Naziv',
+                    labelStyle: GoogleFonts.poppins(),
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xff5D4037),
+                        width: 2.0,
+                      ),
+                    ),
+                    enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  onChanged: (value) {},
+                ),
+                TextFormField(
+                  controller: _cijenaController,
+                  decoration: InputDecoration(
+                    labelText: 'Cijena',
+                    labelStyle: GoogleFonts.poppins(),
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xff5D4037),
+                        width: 2.0,
+                      ),
+                    ),
+                    enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  onChanged: (value) {},
+                ),
+                TextFormField(
+                  controller: _ikonicaController,
+                  decoration: InputDecoration(
+                    labelText: 'Link ikonice',
+                    labelStyle: GoogleFonts.poppins(),
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xff5D4037),
+                        width: 2.0,
+                      ),
+                    ),
+                    enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  onChanged: (value) {},
+                ),
+                DropdownButtonFormField<String>(
+                  value: selectedCategory,
+                  decoration: InputDecoration(
+                    labelText: 'Kategorija',
+                    labelStyle: GoogleFonts.poppins(),
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xff5D4037),
+                        width: 2.0,
+                      ),
+                    ),
+                    enabledBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey,
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                  items: categories.map((String category) {
+                    return DropdownMenuItem<String>(
+                      value: category,
+                      child: Text(
+                        category,
+                        style: GoogleFonts.poppins(),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedCategory = newValue!;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
             TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: 24.0,
+                ),
+              ),
+              child: Text(
+                'Odustani',
+                style: GoogleFonts.poppins(
+                  color: const Color(0xff5D4037),
+                ),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text("Odustani"),
             ),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff5D4037),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 16.0,
+                  horizontal: 24.0,
+                ),
+              ),
+              child: Text(
+                'Dodaj',
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               onPressed: () {
                 String kategorija = selectedCategory;
                 _addNewArtikal(cafeDoc, kategorija);
                 Navigator.of(context).pop();
               },
-              child: const Text("Dodaj"),
             ),
           ],
         );
