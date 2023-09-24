@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Dashboard extends StatefulWidget {
@@ -30,7 +32,7 @@ class _DashboardState extends State<Dashboard> {
               const BorderRadius.vertical(bottom: Radius.circular(25.0)),
           child: AppBar(
             automaticallyImplyLeading: false,
-            backgroundColor: const Color(0xff5D4037)
+            backgroundColor: const Color(0xff5f3c1e)
                 .withOpacity(0.9), // Set the specified color
             title: Padding(
               padding: const EdgeInsets.fromLTRB(10, 30, 0, 0),
@@ -253,6 +255,90 @@ class _DashboardState extends State<Dashboard> {
                   )),
 
               Padding(
+                padding: const EdgeInsets.fromLTRB(20, 100, 20, 40),
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Često postavljena pitanja',
+                        style: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 15.0),
+                        child: SizedBox(
+                          width: 30.0,
+                          child: Divider(
+                            color: Colors.black,
+                            thickness: 2.0,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15), // 15px gap
+                      GestureDetector(
+                        onTap: () {
+                          // Show dialog for "Kako dodati novi artikal"
+                          _showAddArtikalDialog(context, widget.ime);
+                        },
+                        child: Center(
+                          child: Text(
+                            'Kako dodati novi artikal?',
+                            style: GoogleFonts.poppins(
+                              color: const Color(0xff5f3c1e),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15), // 15px gap
+                      GestureDetector(
+                        onTap: () {
+                          // Show dialog for "Kako dodati novi artikal"
+                          _showYouTubeDialog(context, widget.ime);
+                        },
+                        child: Center(
+                          child: Text(
+                            'Kako postaviti ikonicu za artikal?',
+                            style: GoogleFonts.poppins(
+                              color: const Color(0xff5f3c1e),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15), // 15px gap
+                      GestureDetector(
+                        onTap: () {
+                          // Show dialog for "Kako dodati novi artikal"
+                          _showMeniDialog(context, widget.ime);
+                        },
+                        child: Center(
+                          child: Text(
+                            'Kako dobiti QR meni?',
+                            style: GoogleFonts.poppins(
+                              color: const Color(0xff5f3c1e),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Text(
+                'ili',
+                style: GoogleFonts.poppins(
+                    fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+              Padding(
                 padding: const EdgeInsets.all(40.0),
                 child: TextButton(
                   onPressed: () {
@@ -277,7 +363,7 @@ class _DashboardState extends State<Dashboard> {
 }
 
 void _showHelpDialog(BuildContext context, String ime) {
-  String selectedCategory = 'Problemi sa prijavom'; // Default selection
+  String selectedCategory = 'Zahtjev za izradu menia'; // Default selection
   final subjectController = TextEditingController();
   final messageController = TextEditingController();
 
@@ -326,7 +412,7 @@ void _showHelpDialog(BuildContext context, String ime) {
                   ),
                   focusedBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xff5D4037), // Color when focused
+                      color: Color(0xff5f3c1e), // Color when focused
                       width: 2.0, // Width of the underline when focused
                     ),
                   ),
@@ -350,7 +436,7 @@ void _showHelpDialog(BuildContext context, String ime) {
                 decoration: const InputDecoration(
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xff5D4037), // Color when focused
+                      color: Color(0xff5f3c1e), // Color when focused
                       width: 2.0, // Width of the underline when focused
                     ),
                   ),
@@ -362,11 +448,12 @@ void _showHelpDialog(BuildContext context, String ime) {
                   ),
                 ),
                 items: [
+                  'Zahtjev za izradu menia',
                   'Problemi sa prijavom',
                   'Greska u dizajnu',
                   'Problemi sa serverom',
+                  'Prijedlog za poboljsanje',
                   'Ostalo',
-                  'Prijedlog za poboljsanje'
                 ].map((String category) {
                   return DropdownMenuItem<String>(
                     value: category,
@@ -394,7 +481,7 @@ void _showHelpDialog(BuildContext context, String ime) {
                   ),
                   focusedBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(
-                      color: Color(0xff5D4037), // Color when focused
+                      color: Color(0xff5f3c1e), // Color when focused
                       width: 2.0, // Width of the underline when focused
                     ),
                   ),
@@ -418,7 +505,7 @@ void _showHelpDialog(BuildContext context, String ime) {
             child: Text(
               'Odustani',
               style: GoogleFonts.poppins(
-                color: const Color(0xff5D4037),
+                color: const Color(0xff5f3c1e),
               ),
             ),
             onPressed: () {
@@ -427,7 +514,7 @@ void _showHelpDialog(BuildContext context, String ime) {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xff5D4037),
+              backgroundColor: const Color(0xff5f3c1e),
               padding:
                   const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
             ),
@@ -470,6 +557,216 @@ void _showHelpDialog(BuildContext context, String ime) {
                 Navigator.of(context).pop();
               }
             },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+// Function to show the "Kako dodati novi artikal" dialog
+// Function to show the "Kako dodati novi artikal" dialog
+void _showAddArtikalDialog(BuildContext context, String ime) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          'Kako dodati novi artikal?',
+          style: GoogleFonts.poppins(
+            color: const Color(0xff5f3c1e),
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        content: SizedBox(
+          width: 600,
+          height: 170,
+          child: Text(
+            'Da biste dodali novi artikal u Vas lokal, potrebno je da se uputite na stranicu za upravljanje artiklima i na dnu stranice pristupite dugmetu koje vodi ka dijalogu koji od Vas trazi da unesete Naziv artikla, cijenu, ikonicu (sliku koja ce se pojaviti na meniu za taj artikal), kao i da odaberete kategoriju u kojoj ce se artikal pojaviti. Kada unesete sve potrebne podatke i kliknete Unesi, artikal ce biti unijet u bazu podataka i prikazat ce se na Vasem meniu.',
+            style: GoogleFonts.poppins(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                  vertical: 16.0, horizontal: 24.0), // Adjust button padding
+            ),
+            child: Text(
+              'Trebam pomoc',
+              style: GoogleFonts.poppins(
+                color: const Color(0xff5f3c1e),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            onPressed: () {
+              _showHelpDialog(context, ime);
+            },
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xff5f3c1e),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+            ),
+            onPressed: () {
+              // Handle "Shvatio sam" button click
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text(
+              'Shvatio sam',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _showMeniDialog(BuildContext context, String ime) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          'Kako dodati novi artikal?',
+          style: GoogleFonts.poppins(
+            color: const Color(0xff5f3c1e),
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        content: SizedBox(
+          width: 600,
+          height: 170,
+          child: Text(
+            'Kako biste dobili QR meni i finalni produkt, kao i dizajn fizickih menia sa QR kodom, potrebno je da kontaktirate razvojne programere aplikacije kako bi iste dobili u najkracem mogucem roku',
+            style: GoogleFonts.poppins(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                  vertical: 16.0, horizontal: 24.0), // Adjust button padding
+            ),
+            child: Text(
+              'Kontaktirajte programera',
+              style: GoogleFonts.poppins(
+                color: const Color(0xff5f3c1e),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            onPressed: () {
+              _showHelpDialog(context, ime);
+            },
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xff5f3c1e),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+            ),
+            onPressed: () {
+              // Handle "Shvatio sam" button click
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text(
+              'Shvatio sam',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _showYouTubeDialog(BuildContext context, String ime) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          'Kako postaviti ikonicu artikla?',
+          style: GoogleFonts.poppins(
+            color: const Color(0xff5f3c1e),
+            fontSize: 30,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        content: SizedBox(
+          width: 600,
+          height: 170,
+          child: GestureDetector(
+            onTap: () async {
+              const url =
+                  'https://www.youtube.com/watch?v=hc9Ph9GswMc'; // Replace with your actual URL
+              try {
+                await launch(url);
+              } catch (e) {
+                print('Error launching URL: $e');
+              }
+            },
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text:
+                        'Kako biste dodali ikonicu (sliku) nekog artikla iz Vase ponude, potrebno je da preuzmete png sliku artikla sa interneta i uploadate je na svoj meni. Kako preuzeti ikonicu i objaviti je?',
+                    style: GoogleFonts.poppins(),
+                  ),
+                  TextSpan(
+                    text: ' Pogledajte na ovom linku',
+                    style: GoogleFonts.poppins(
+                      color: const Color(0xff5f3c1e),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                  vertical: 16.0, horizontal: 24.0), // Adjust button padding
+            ),
+            child: Text(
+              'Trebam pomoc',
+              style: GoogleFonts.poppins(
+                color: const Color(0xff5f3c1e),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            onPressed: () {
+              _showHelpDialog(context, ime);
+            },
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xff5f3c1e),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+            ),
+            onPressed: () {
+              // Handle "Shvatio sam" button click
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text(
+              'Shvatio sam',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
         ],
       );
