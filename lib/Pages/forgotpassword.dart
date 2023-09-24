@@ -197,7 +197,7 @@ class _LozinkaState extends State<Lozinka> {
                                             const Color(0xffCEA35B),
                                       ),
                                       onPressed: () {
-                                        prijava(context);
+                                        resetPassword(context);
                                       },
                                       child: Text(
                                         'Resetujte lozinku',
@@ -249,61 +249,28 @@ class _LozinkaState extends State<Lozinka> {
   }
 }
 
-Future<void> prijava(BuildContext context) async {
+Future<void> resetPassword(BuildContext context) async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   try {
-    // Authenticate the user
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+    // Send a password reset email to the user's email address
+    await FirebaseAuth.instance.sendPasswordResetEmail(
       email: _emailController.text.trim(),
-      password: _passwordController.text.trim(),
     );
 
-    // Get the user's email from Firebase Authentication
-    String userEmail = userCredential.user?.email ?? '';
+    // Clear the text controller
+    _emailController.clear();
 
-    // Query the Firestore collection for the user's email
-    CollectionReference usersCollection =
-        FirebaseFirestore.instance.collection('users');
-    QuerySnapshot querySnapshot =
-        await usersCollection.where('Email', isEqualTo: userEmail).get();
+    // Show a message to inform the user that a password reset email has been sent
+    Fluttertoast.showToast(msg: 'Email za resetiranje lozinke je poslan.');
 
-    if (querySnapshot.size > 0) {
-      // The user's email exists in the Firestore collection
-      // Extract the 'Ime' field from the Firestore document
-      String ime = querySnapshot.docs[0].get('Ime') ?? '';
-
-      // Clear the text controllers
-      _emailController.clear();
-      _passwordController.clear();
-
-      // Navigate to the Dashboard page and pass the 'ime' parameter
-      // ignore: use_build_context_synchronously
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Dashboard(ime: ime),
-        ),
-      );
-    } else {
-      // User's email not found in Firestore collection
-      Fluttertoast.showToast(msg: 'Korisnik nije pronađen');
-    }
-  } on FirebaseAuthException catch (e) {
-    // Handle Firebase Authentication exceptions
-    if (e.code == 'user-not-found') {
-      Fluttertoast.showToast(msg: 'Korisnik nije pronađen');
-    } else if (e.code == 'wrong-password') {
-      Fluttertoast.showToast(msg: 'Kriva lozinka');
-    } else {
-      Fluttertoast.showToast(msg: 'Greška prilikom prijave');
-    }
+    // You can navigate to a different screen or handle UI accordingly
   } catch (e) {
-    // Handle other exceptions
+    // Handle any errors that occur during the password reset process
     print(e);
+
+    // Show an error message to the user
+    Fluttertoast.showToast(msg: 'Korisnik ne postoji.');
   }
 }
