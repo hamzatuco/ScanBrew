@@ -19,7 +19,6 @@ class Lozinka extends StatefulWidget {
 }
 
 final _emailController = TextEditingController();
-final _passwordController = TextEditingController();
 String ime = '';
 
 class _LozinkaState extends State<Lozinka> {

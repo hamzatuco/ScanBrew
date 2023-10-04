@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:scanbrew/Pages/lokali.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
@@ -156,17 +157,11 @@ class _DashboardState extends State<Dashboard> {
                       Flexible(
                         child: ElevatedButton(
                           onPressed: () {
-                            Fluttertoast.showToast(
-                              msg: "Uskoro...",
-                              toastLength:
-                                  Toast.LENGTH_SHORT, // Duration of the toast
-                              gravity:
-                                  ToastGravity.BOTTOM, // Position of the toast
-                              backgroundColor:
-                                  Colors.grey, // Background color of the toast
-                              textColor:
-                                  Colors.white, // Text color of the toast
-                              fontSize: 16.0, // Font size of the text
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CafeListPage(),
+                              ),
                             );
                           },
                           style: ElevatedButton.styleFrom(
@@ -278,7 +273,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15), // 15px gap
+                      const SizedBox(height: 15), // 15px gap
                       GestureDetector(
                         onTap: () {
                           // Show dialog for "Kako dodati novi artikal"
@@ -295,7 +290,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15), // 15px gap
+                      const SizedBox(height: 15), // 15px gap
                       GestureDetector(
                         onTap: () {
                           // Show dialog for "Kako dodati novi artikal"
@@ -312,7 +307,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 15), // 15px gap
+                      const SizedBox(height: 15), // 15px gap
                       GestureDetector(
                         onTap: () {
                           // Show dialog for "Kako dodati novi artikal"
@@ -710,9 +705,7 @@ void _showYouTubeDialog(BuildContext context, String ime) {
                   'https://www.youtube.com/watch?v=hc9Ph9GswMc'; // Replace with your actual URL
               try {
                 await launch(url);
-              } catch (e) {
-                print('Error launching URL: $e');
-              }
+              } catch (e) {}
             },
             child: Text.rich(
               TextSpan(
